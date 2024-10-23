@@ -1,0 +1,210 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<!-- Navbar -->
+<nav class="bg-white shadow-md fixed w-full top-0 left-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href="/" class="text-xl font-semibold text-gray-800">FoodApp</a>
+      </div>
+      <!-- Mobile Menu Button -->
+      <div class="block lg:hidden">
+        <button
+          id="mobileMenuButton"
+          class="text-gray-700 hover:text-gray-900 focus:outline-none"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            ></path>
+          </svg>
+        </button>
+      </div>
+      <!-- Desktop Menu -->
+      <div class="hidden lg:flex space-x-4">
+        <a
+          href="/"
+          class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-lg"
+          >Beranda</a
+        >
+        <div class="relative">
+          <!-- Dropdown Trigger -->
+          <button
+            id="menuButton"
+            class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-lg focus:outline-none"
+          >
+            Menu
+          </button>
+          <!-- Dropdown Menu -->
+          <div
+            id="dropdownMenu"
+            class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-20"
+          >
+            <a
+              href="#menu-pembuka"
+              class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >Menu Pembuka</a
+            >
+            <a
+              href="#menu-utama"
+              class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >Menu Utama</a
+            >
+            <a
+              href="#menu-penutup"
+              class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >Menu Penutup</a
+            >
+          </div>
+        </div>
+        <a
+          href="#about-us"
+          class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-lg"
+          >About Us</a
+        >
+      </div>
+    </div>
+  </div>
+  <!-- Mobile Menu (full screen) -->
+  <div
+    id="mobileMenu"
+    class="fixed inset-0 bg-white hidden lg:hidden z-40 flex flex-col items-center justify-center space-y-4"
+  >
+    <a href="/" class="block text-gray-700 text-2xl hover:text-gray-900">Beranda</a>
+    <a href="#menu-pembuka" class="block text-gray-700 text-2xl hover:text-gray-900">Menu Pembuka</a>
+    <a href="#menu-utama" class="block text-gray-700 text-2xl hover:text-gray-900">Menu Utama</a>
+    <a href="#menu-penutup" class="block text-gray-700 text-2xl hover:text-gray-900">Menu Penutup</a>
+    <a href="#about-us" class="block text-gray-700 text-2xl hover:text-gray-900">About Us</a>
+    <button
+      id="closeMobileMenuButton"
+      class="absolute top-4 right-4 text-gray-700 hover:text-gray-900"
+    >
+      <svg
+        class="w-8 h-8"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        ></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section
+  class="relative h-screen flex items-center justify-center text-center bg-gray-800"
+>
+  <!-- Hero Image -->
+  <img
+    src="{% static 'deliver/images/hero.jpeg' %}"
+    alt="Makanan Lezat"
+    class="absolute inset-0 w-full h-full object-cover z-0 opacity-75"
+  />
+
+  <!-- Hero Content -->
+  <div class="relative z-10 text-white px-4">
+    <h1 class="text-4xl sm:text-5xl font-bold mb-4">
+      Nikmati Makanan Terbaik Kami
+    </h1>
+    <p class="text-base sm:text-lg mb-8">
+      Pengalaman kuliner yang tak terlupakan, hanya di FoodApp.
+    </p>
+    <a
+      href="#galeri"
+      class="bg-yellow-500 text-gray-900 font-semibold px-6 py-3 rounded-md hover:bg-yellow-600 transition"
+      >Lihat Galeri</a
+    >
+  </div>
+
+  <!-- Overlay untuk memberikan efek gelap pada gambar -->
+  <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
+</section>
+
+<!-- Galeri Foto Makanan -->
+<section id="galeri" class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12">
+      Galeri Makanan Terbaik Kami
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {% for item in menu_items %}
+      <!-- Foto {{ forloop.counter }} -->
+      <div class="overflow-hidden rounded-lg shadow-lg">
+        <img
+          src="{% static item.image %}"
+          alt="{{ item.name }}"
+          class="w-full h-64 object-cover"
+        />
+        <div class="p-4">
+          <h3 class="text-xl font-semibold mb-2">{{ item.name }}</h3>
+          <p class="text-gray-600">{{ item.description }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Script for dropdown and mobile menu -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuButton = document.getElementById("menuButton");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    const mobileMenuButton = document.getElementById("mobileMenuButton");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    // Dropdown menu toggle
+    menuButton.addEventListener("click", () => {
+      dropdownMenu.classList.toggle("hidden");
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!menuButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.classList.add("hidden");
+      }
+    });
+
+    // Mobile menu toggle
+    mobileMenuButton.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+  });
+
+  // Tunggu hingga semua elemen HTML selesai dimuat
+  document.addEventListener('DOMContentLoaded', function() {
+    // Ambil referensi elemen
+    const mobileMenuButton = document.getElementById('mobileMenuButton');
+    const closeMobileMenuButton = document.getElementById('closeMobileMenuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    // Event listener untuk membuka mobile menu
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.remove('hidden'); // Menampilkan mobile menu
+    });
+
+    // Event listener untuk menutup mobile menu
+    closeMobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden'); // Menyembunyikan mobile menu
+    });
+  });
+</script>
+
+{% endblock %}
