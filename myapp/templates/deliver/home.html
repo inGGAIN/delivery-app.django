@@ -8,28 +8,6 @@
       <div class="flex-shrink-0">
         <a href="/" class="text-xl font-semibold text-gray-800">FoodApp</a>
       </div>
-      <!-- Mobile Menu Button -->
-      <div class="block lg:hidden">
-        <button
-          id="mobileMenuButton"
-          class="text-gray-700 hover:text-gray-900 focus:outline-none"
-        >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16m-7 6h7"
-            ></path>
-          </svg>
-        </button>
-      </div>
       <!-- Desktop Menu -->
       <div class="hidden lg:flex space-x-4">
         <a
@@ -46,6 +24,8 @@
             Menu
           </button>
           <!-- Dropdown Menu -->
+        </div>
+        <div class="dropdown">
           <div
             id="dropdownMenu"
             class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-20"
@@ -67,11 +47,161 @@
             >
           </div>
         </div>
-        <a
-          href="#about-us"
-          class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-lg"
-          >About Us</a
+          <div class="flex-none">
+            <div class="dropdown dropdown-end">
+              <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                <div class="indicator">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                  <span class="badge badge-sm indicator-item"
+                    >{{ total_items }}</span
+                  >
+                </div>
+              </div>
+              <div
+                tabindex="0"
+                class="card card-compact dropdown-content bg-white z-[1] mt-3 w-52 shadow"
+              >
+                <div class="card-body">
+                  <span class="text-lg font-bold">{{ total_items }} Items</span>
+                  <ul>
+                    {% for item in menu_items %}
+                    <li>{{ item.name }} - IDR {{ item.price }}</li>
+                    {% endfor %}
+                  </ul>
+                  <div class="card-actions">
+                    <button
+                      onclick="my_modal_3.showModal()"
+                      class="btn bg-yellow-500 text-gray-900 btn-block"
+                    >
+                      View Cart
+                    </button>
+                    <dialog id="my_modal_3" class="modal">
+                      <div class="modal-box bg-white">
+                        <form method="dialog">
+                          <button
+                            class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                          >
+                            ✕
+                          </button>
+                        </form>
+                        <span class="text-lg font-bold"
+                          >{{ total_items }} Items</span
+                        >
+                        <ul>
+                          {% for item in menu_items %}
+                          <li>{{ item.name }} = IDR {{ item.price }}</li>
+                          {% endfor %}
+                        </ul>
+                        <div class="card-actions justify-end">
+                          <button class="btn btn-warning">Buy Now</button>
+                        </div>
+                      </div>
+                    </dialog>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Mobile Menu Button -->
+      <div class="block lg:hidden">
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+            <div class="indicator">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+              <span class="badge badge-sm indicator-item"
+                >{{ total_items }}</span
+              >
+              <div
+                tabindex="0"
+                class="card card-compact dropdown-content bg-white z-[1] mt-3 w-52 shadow"
+              >
+                <div class="card-body">
+                  <span class="text-lg font-bold">{{ total_items }} Items</span>
+                  <ul>
+                    {% for item in menu_items %}
+                    <li>{{ item.name }} - IDR {{ item.price }}</li>
+                    {% endfor %}
+                  </ul>
+                  <div class="card-actions">
+                    <button
+                      onclick="my_modal_3.showModal()"
+                      class="btn bg-yellow-500 text-gray-900 btn-block"
+                    >
+                      View cart
+                    </button>
+                    <dialog id="my_modal_3" class="modal">
+                      <div class="modal-box bg-white">
+                        <form method="dialog">
+                          <button
+                            class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                          >
+                            ✕
+                          </button>
+                        </form>
+                        <span class="text-lg font-bold"
+                          >{{ total_items }} Items</span
+                        >
+                        <ul>
+                          {% for item in menu_items %}
+                          <li>{{ item.name }} - IDR {{ item.price }}</li>
+                          {% endfor %}
+                        </ul>
+                        <div class="card-actions justify-end">
+                          <button class="btn btn-warning">Buy Now</button>
+                        </div>
+                      </div>
+                    </dialog>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        <button
+          id="mobileMenuButton"
+          class="text-gray-700 hover:text-gray-900 focus:outline-none"
         >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            ></path>
+          </svg>
+        </button>
       </div>
     </div>
   </div>
@@ -80,11 +210,51 @@
     id="mobileMenu"
     class="fixed inset-0 bg-white hidden lg:hidden z-40 flex flex-col items-center justify-center space-y-4"
   >
-    <a href="/" class="block text-gray-700 text-2xl hover:text-gray-900">Beranda</a>
-    <a href="#menu-pembuka" class="block text-gray-700 text-2xl hover:text-gray-900">Menu Pembuka</a>
-    <a href="#menu-utama" class="block text-gray-700 text-2xl hover:text-gray-900">Menu Utama</a>
-    <a href="#menu-penutup" class="block text-gray-700 text-2xl hover:text-gray-900">Menu Penutup</a>
-    <a href="#about-us" class="block text-gray-700 text-2xl hover:text-gray-900">About Us</a>
+  
+  <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+    <div class="indicator">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+        />
+      </svg>
+      <span class="badge badge-sm indicator-item"
+        >{{ total_items }}</span
+      >
+    </div>
+  </div>
+  <div
+    <a href="/" class="block text-gray-700 text-2xl hover:text-gray-900"
+      >Beranda</a
+    >
+    <a
+      href="#menu-pembuka"
+      class="block text-gray-700 text-2xl hover:text-gray-900"
+      >Menu Pembuka</a
+    >
+    <a
+      href="#menu-utama"
+      class="block text-gray-700 text-2xl hover:text-gray-900"
+      >Menu Utama</a
+    >
+    <a
+      href="#menu-penutup"
+      class="block text-gray-700 text-2xl hover:text-gray-900"
+      >Menu Penutup</a
+    >
+    <a href="#about-us" class="block text-gray-700 text-2xl hover:text-gray-900"
+      >About Us</a
+    >
+    
     <button
       id="closeMobileMenuButton"
       class="absolute top-4 right-4 text-gray-700 hover:text-gray-900"
@@ -143,68 +313,81 @@
     <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12">
       Galeri Makanan Terbaik Kami
     </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div class="sticky top-20 rounded-box">
+      <ul class="menu lg:menu-horizontal text-black bg-white shadow-lg rounded-box lg:mb-10 grid grid-cols-1:grid-cols-2 md:grid-cols-3 gap-6">
+        <!-- <li><a>All</a></li> -->
+        <li>
+          <details open>
+            <summary class="bg-white">Categories</summary>
+            <ul class="bg-white shadow shadow-lg text-black-700">
+              {% for item in menu_items %}
+              <li href="{{item.categories}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" onclick="filterCategory('{{item.categories}}')"><a>{{item.categories}}</a></li>
+              {% endfor %}
+              </li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+      <ul class="menu lg:menu-horizontal text-black bg-white shadow-lg rounded-box lg:mb-10">
+        <li>
+          <details open>
+            <summary>Sort</summary>
+            <ul class="text-black-700 bg-white">
+              <li>A - Z</li>
+              <li>Z - A</li>
+              <li>High - Low</li>
+              <li>Low - High</li>
+              <li>Popular</li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pt-5">
       {% for item in menu_items %}
-      <!-- Foto {{ forloop.counter }} -->
-      <div class="overflow-hidden rounded-lg shadow-lg">
-        <img
-          src="{% static item.image %}"
-          alt="{{ item.name }}"
-          class="w-full h-64 object-cover"
-        />
-        <div class="p-4">
-          <h3 class="text-xl font-semibold mb-2">{{ item.name }}</h3>
-          <p class="text-gray-600">{{ item.description }}</p>
+        <div class="overflow-hidden rounded-lg shadow-lg">
+          <img
+            src="{% static item.image %}"
+            alt="{{ item.name }}"
+            class="w-full h-64 object-cover"
+          />
+          <div class="p-4">
+            <h3 id="tier-{{ item.id }}" class="text-xl font-semibold mb-2 text-yellow-500">{{ item.name }}</h3>
+            <h2 class="text-2xl font-semibold tracking-tight text-gray-900">IDR {{ item.price }}</h2>
+            <a
+              href="#"
+              aria-describedby="tier-{{ item.id }}"  class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-gray-900 bg-yellow-500"
+            >
+              Add
+            </a>
+          </div>
         </div>
-      </div>
       {% endfor %}
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+   <!-- Modal Detail Produk -->
+   <div id="product-modal" class="modal hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden max-w-md w-full">
+      <div class="p-4">
+        <span class="close text-gray-500 float-right cursor-pointer" onclick="closeModal()">&times;</span>
+        <img id="modal-image" src="" alt="Product Image" class="w-full h-64 object-cover mb-4" />
+        <h3 id="modal-name" class="text-2xl font-semibold mb-2"></h3>
+        <p id="modal-description" class="text-gray-600 mb-4"></p>
+        <p class="text-lg font-semibold mb-4">Harga: Rp. <span id="modal-price"></span></p>
+        <button class="bg-blue-500 text-white py-2 px-4 rounded-lg" onclick="addToCart()">
+          Tambah ke Keranjang
+        </button>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- Script for dropdown and mobile menu -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const menuButton = document.getElementById("menuButton");
-    const dropdownMenu = document.getElementById("dropdownMenu");
-    const mobileMenuButton = document.getElementById("mobileMenuButton");
-    const mobileMenu = document.getElementById("mobileMenu");
-
-    // Dropdown menu toggle
-    menuButton.addEventListener("click", () => {
-      dropdownMenu.classList.toggle("hidden");
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener("click", (e) => {
-      if (!menuButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
-        dropdownMenu.classList.add("hidden");
-      }
-    });
-
-    // Mobile menu toggle
-    mobileMenuButton.addEventListener("click", () => {
-      mobileMenu.classList.toggle("hidden");
-    });
-  });
-
-  // Tunggu hingga semua elemen HTML selesai dimuat
-  document.addEventListener('DOMContentLoaded', function() {
-    // Ambil referensi elemen
-    const mobileMenuButton = document.getElementById('mobileMenuButton');
-    const closeMobileMenuButton = document.getElementById('closeMobileMenuButton');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    // Event listener untuk membuka mobile menu
-    mobileMenuButton.addEventListener('click', () => {
-      mobileMenu.classList.remove('hidden'); // Menampilkan mobile menu
-    });
-
-    // Event listener untuk menutup mobile menu
-    closeMobileMenuButton.addEventListener('click', () => {
-      mobileMenu.classList.add('hidden'); // Menyembunyikan mobile menu
-    });
-  });
-</script>
+<script src="{% static 'deliver/js/script.js' %}"></script>
 
 {% endblock %}

@@ -1,0 +1,18 @@
+<dialog id="my_modal_3" class="modal">
+  <div class="modal-box bg-white">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+        ✕
+      </button>
+    </form>
+    <span class="text-lg font-bold">{{ total_items }} Items</span>
+    <ul>
+      {% for item in menu_items %}
+      <li>{{ item.name }} - IDR {{ item.price }}</li>
+      {% endfor %}
+    </ul>
+    <div class="card-actions justify-end">
+      <button class="btn btn-warning">Buy Now</button>
+    </div>
+  </div>
+</dialog>
