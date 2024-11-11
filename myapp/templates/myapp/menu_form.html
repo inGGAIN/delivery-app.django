@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mx-auto mt-8">
+    <h1 class="text-2xl font-bold text-white">{{ form.instance.pk|yesno:"Edit Menu, Tambah Menu" }}</h1>
+    <button type="button" onclick="window.history.back()" class="btn btn-secondary mt-4">
+        Kembali
+    </button>
+    
+    <form method="POST" enctype="multipart/form-data" class="bg-yellow-500 p-6 rounded-lg grid grid-cols-1 gap-6 md:grid-cols-2">
+        {% csrf_token %}
+
+        <!-- Grid for Nama Item and Kategori Fields (2 Columns) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 col-span-2">
+            <!-- Nama Item Field -->
+            <div class="form-control bg-gray-100 p-4 rounded">
+                <label class="label text-lg font-semibold text-gray-700" for="id_name">Nama Item</label>
+                <input type="text" name="name" id="id_name" class="input input-bordered w-full" value="{{ form.name.value|default_if_none:'' }}" placeholder="Masukkan nama item">
+                <span class="text-red-500">{{ form.name.errors }}</span>
+            </div>
+
+            <!-- Kategori Field -->
+            <div class="form-control bg-gray-100 p-4 rounded">
+                <label class="label text-lg font-semibold text-gray-700" for="id_categories">Kategori</label>
+                <input type="text" name="categories" id="id_categories" class="input input-bordered w-full" value="{{ form.categories.value|default_if_none:'' }}" placeholder="Masukkan kategori">
+                <span class="text-red-500">{{ form.categories.errors }}</span>
+            </div>
+        </div>
+        
+        <!-- Deskripsi Field (Full Width) -->
+        <div class="form-control mb-4 bg-gray-100 p-4 rounded col-span-2">
+            <label class="label text-lg font-semibold text-gray-700" for="id_description">Deskripsi</label>
+            <textarea name="description" id="id_description" class="textarea textarea-bordered w-full" placeholder="Deskripsikan item">{{ form.description.value|default_if_none:'' }}</textarea>
+            <span class="text-red-500">{{ form.description.errors }}</span>
+        </div>
+        
+        <!-- Gambar Field -->
+        <div class="form-control mb-4 bg-gray-100 p-4 rounded">
+            <label class="label text-lg font-semibold text-gray-700" for="id_image">Gambar</label>
+            <input type="file" name="image" id="id_image" class="file-input file-input-bordered w-full" accept="image/*" onchange="previewImage(event)">
+            <span class="text-red-500">{{ form.image.errors }}</span>
+            <div class="mt-4">
+                <img id="image-preview" src="#" alt="Preview Gambar" class="hidden w-32 h-32 object-cover border border-gray-300 rounded">
+            </div>
+        </div>
+        
+        <!-- Harga Field -->
+        <div class="form-control mb-4 bg-gray-100 p-4 rounded">
+            <label class="label text-lg font-semibold text-gray-700" for="id_price">Harga</label>
+            <input type="number" name="price" id="id_price" class="input input-bordered w-full" value="{{ form.price.value|default_if_none:'' }}" placeholder="Masukkan harga">
+            <span class="text-red-500">{{ form.price.errors }}</span>
+        </div>
+        
+        <!-- Submit Button (Full Width) -->
+        <div class="col-span-2 flex justify-end space-x-4 mt-6">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <a href="{% url 'menu_list' %}" class="btn btn-secondary">Kembali</a>
+        </div>
+    </form>
+</div>
+
+<script>
+  function previewImage(event) {
+    const input = event.target;
+    const preview = document.getElementById('image-preview');
+    
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+        preview.classList.remove('hidden');
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+{% endblock %}

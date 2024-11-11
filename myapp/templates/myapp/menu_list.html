@@ -1,0 +1,121 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="container mx-auto mt-8">
+  <h1 class="text-2xl font-bold">Daftar Menu</h1>
+  <a href="{% url 'menu_create' %}" class="btn btn-primary mt-4">Tambah Menu</a>
+  <div class="container mt-4">
+    <table class="table w-full">
+      <thead>
+        <tr>
+          <th>Nama Item</th>
+          <th>Gambar</th>
+          <th>Kategori</th>
+          <th>Deskripsi</th>
+          <th>Harga</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for menu in menus %}
+        <tr id="menu-{{ menu.id }}">
+          <td>{{ menu.name }}</td>
+          <td>
+            {% if menu.image %}
+            <img
+              src="{{ menu.image.url }}"
+              alt="{{ menu.name }}"
+              class="w-16 h-16 object-cover"
+            />
+            {% else %}
+            <span>No Image</span>
+            {% endif %}
+          </td>
+          <td>{{ menu.categories }}</td>
+          <td>{{ menu.description }}</td>
+          <td>{{ menu.price }}</td>
+          <td>
+            <!-- <button
+              type="button"
+              onclick="window.location.href='{% url 'menu_update' menu.pk %}'"
+              class="btn btn-warning"
+            > -->
+            <button
+              type="button"
+              onclick="openEditModal('{{ menu.id }}', '{{ menu.name }}', '{{ menu.categories }}', '{{ menu.description }}', '{{ menu.price }}')"
+              class="btn btn-warning"
+            >
+              Edit
+            </button>
+
+            <button
+              type="button"
+              onclick="deleteMenu({{ menu.id }})"
+              class="btn btn-error"
+            >
+              Hapus
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- DaisyUI Edit Modal -->
+<input type="checkbox" id="edit-modal" class="modal-toggle" />
+<div class="modal">
+  <div class="modal-box relative">
+    <label for="edit-modal" class="btn btn-sm btn-circle absolute right-2 top-2"
+      >✕</label
+    >
+    <h3 class="text-lg font-bold">Edit Menu Item</h3>
+    <form id="edit-form" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-control">
+        <label class="label">Nama</label>
+        <input
+          type="text"
+          id="edit-name"
+          name="name"
+          class="input input-bordered"
+          required
+        />
+      </div>
+      <div class="form-control">
+        <label class="label">Kategori</label>
+        <input
+          type="text"
+          id="edit-categories"
+          name="categories"
+          class="input input-bordered"
+          required
+        />
+      </div>
+      <div class="form-control">
+        <label class="label">Deskripsi</label>
+        <textarea
+          id="edit-description"
+          name="description"
+          class="textarea textarea-bordered"
+          required
+        ></textarea>
+      </div>
+      <div class="form-control">
+        <label class="label">Harga</label>
+        <input
+          type="number"
+          id="edit-price"
+          name="price"
+          class="input input-bordered"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary mt-4">Simpan</button>
+    </form>
+  </div>
+</div>
+
+<script src="{% static 'deliver/js/modalEditForm.js' %}"></script>
+<script src="{% static 'deliver/js/scripts.js' %}"></script>
+<script src="{% static 'deliver/js/sweetAlert2.js' %}"></script>
+{% endblock %}

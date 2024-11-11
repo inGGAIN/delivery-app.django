@@ -2,10 +2,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>myapp</title>
+    <title>Kasir</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="csrf-token" content="{{ csrf_token }}"><!--csrf-token -->
     {% tailwind_css %}
   </head>
 
@@ -18,4 +19,6 @@
   <body class="br-gray-100">
     {% block content %} {% endblock %}
   </body>
+  <script src="{% static 'deliver/js/scripts.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>

@@ -1,57 +1,13 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
+from .forms import MenuItemForm
 from .models import MenuItem
 
 def home(request):
     menu_items = MenuItem.objects.all()
     context = {}
-    return render(request, 'deliver/home.html', context)
+    return render(request, 'myapp/home.html', context)
 
-# def menu_view(request):
-#     menu_items = [
-#         {
-#             'name': 'Resoll',
-#             'categories': 'Menu Pembuka',
-#             'description': 'Nikmati hidangan pembuka terbaik yang akan menggugah selera Anda.',
-#             'image': 'deliver/images/products/resoll.jpg',
-#             'price': 2000,
-#         },
-#         {
-#             'name': 'Nasi Goreng',
-#             'categories': 'Menu Utama',
-#             'description': 'Pilihan menu utama dengan cita rasa yang tak terlupakan.',
-#             'price': 15000,
-#             'image': 'deliver/images/products/fried-rice.jpg',
-#         },
-#         {
-#             'name': 'Pancake',
-#             'categories': 'Menu Penutup',
-#             'description': 'Akhiri hidangan Anda dengan menu penutup manis dari kami.',
-#             'price': 10000,
-#             'image': 'deliver/images/products/dessert.jpeg',
-#         },
-#         {
-#             'name': 'Salad',
-#             'categories': 'vegetarian',
-#             'description': 'Salad segar dan sehat untuk Anda yang peduli dengan gaya hidup sehat.',
-#             'price': 5000,
-#             'image': 'deliver/images/products/salad.jpg',
-#         },
-#         {
-#             'name': 'Mojito',
-#             'categories': 'Minuman',
-#             'description': 'Pilihan minuman segar untuk melengkapi hidangan Anda.',
-#             'price': 5000,
-#             'image': 'deliver/images/products/mojito.jpg',
-#         },
-#         {
-#             'name': 'Pecel',
-#             'categories': 'vegetarian',
-#             'description': 'Rasakan pecel dengan saus yang kaya rasa dan sempurna.',
-#             'price': 10000,
-#             'image': 'deliver/images/products/pecel.jpg',
-#         },
-#     ]
 def menu_view(request):
     # Mengambil semua data dari model MenuItem yang ada di database
     menu_items = MenuItem.objects.all()
@@ -62,4 +18,39 @@ def menu_view(request):
         'menu_items': menu_items,
     }
     
-    return render(request, 'deliver/home.html', context)
+    return render(request, 'myapp/home.html', context)
+
+# Edit Menu
+def menu_list(request):
+    menus = MenuItem.objects.all()
+    return render(request, 'myapp/menu_list.html', {'menus':menus})
+
+def menu_create(request):
+    print("Request method:", request.method)
+    if request.method == 'POST':
+        form = MenuItemForm(request.POST, request.FILES) #request create & upload files pictures
+        if form.is_valid():
+            form.save()
+            return redirect('menu_list') #after save, go to menu_list page
+    else:
+        form = MenuItemForm()
+    
+    return render(request, 'myapp/menu_form.html', {'form': form})
+    
+def menu_update(request, pk):
+    menu = get_object_or_404(MenuItem, pk=pk)
+    if request.method == 'POST':
+        form = MenuItemForm(request.POST, request.FILES, instance=menu)#update data, images menu
+        if form.is_valid():
+            form.save()
+            return redirect('menu_list')
+    else:
+        form = MenuItemForm(instance=menu)
+    return render(request, 'myapp/menu_form.html', {'form': form})
+
+def menu_delete(request, pk):
+    menu = get_object_or_404(MenuItem, pk=pk)
+    if request.method == 'POST':
+        menu.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False}, status=400)
